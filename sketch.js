@@ -18,12 +18,13 @@ var brokenBoatSpritedata, brokenBoatSpritesheet;
 var waterSplashAnimation = [];
 var waterSplashSpritedata, waterSplashSpritesheet;
 
-var score = 0;
-
 var waterSound, pirateLaughSound, backgroundMusic, cannonExplosion;
 
-var isGameOver = false;
 var isLaughing= false;
+
+// 01. add var isGameOver e iniciar como falsa
+
+// 02. add var score e iniciar com 0 pontos
 
 function preload() {
   backgroundImg = loadImage("assets/background.gif");
@@ -86,8 +87,8 @@ function draw() {
   background(189);
   image(backgroundImg, 0, 0, width, height);
 
+  // 03. if para tocar a musica de fundo continuamente
   if (!backgroundMusic.isPlaying()) {
-    backgroundMusic.play();
     backgroundMusic.setVolume(0.1);
   }
 
@@ -133,7 +134,8 @@ function keyPressed() {
 
 function keyReleased() {
   if (keyCode === DOWN_ARROW && !isGameOver) {
-    cannonExplosion.play();
+    // 04. add som de explosão do canhão
+    
     balls[balls.length - 1].shoot();
   }
 }
@@ -176,15 +178,15 @@ function showBoats() {
       boats[i].display();
       boats[i].animate();
 
-      var collision = Matter.SAT.collides(this.tower, boats[i].body);
+      var collision = Matter.SAT.collides(/* 05. analisar colisão da torre com o barco*/);
       
       if (collision.collided && !boats[i].isBroken) {
-          //Adicionar a sinalização isLaughing e a configuração isLaughing para true
           if(!isLaughing && !pirateLaughSound.isPlaying()){
             pirateLaughSound.play();
             isLaughing = true
           }
-        isGameOver = true;
+        // 06. mudar gameOver para verdadeiro
+        
         gameOver();
       }
     }
@@ -201,7 +203,8 @@ function collisionWithBoat(index) {
       var collision = Matter.SAT.collides(balls[index].body, boats[i].body);
 
       if (collision.collided) {
-        score+=5;
+        // 07. somar 5 no score
+        
         boats[i].remove(i);
         
         Matter.World.remove(world, balls[index].body);
